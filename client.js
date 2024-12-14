@@ -14,13 +14,19 @@ const client = new todoPackage.Todo(
 client.createTodo(
   {
     id: -1,
-    text: "Do Coding",
+    text: "Do Walking",
   },
   (err, response) => {
     console.log("Received response from server", JSON.stringify(response));
   }
 );
 
-client.readTodos({}, (err, response) => {
-  console.log("List of Todos : ", JSON.stringify(response));
+// client.readTodos({}, (err, response) => {
+//   console.log("List of Todos : ", JSON.stringify(response));
+// });
+
+const response = client.readTodosStream();
+response.on("data", (item) => {
+  console.log("Returned Item : ", JSON.stringify(item));
 });
+response.on("end", () => console.log("Server is done sending the data!"));
